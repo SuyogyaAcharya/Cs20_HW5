@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ttt1</title>
+<style>
+
+body{
+    height: 100vh;
+    text-align: center;
+}
+
+h1{
+    text-align: center;
+    font-style: sans serif;
+}
+
+.container{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding-top: 50px;
+    padding-bottom: 50px;
+}
+
+.grid-container {
+    display: grid;
+    grid-template-columns: repeat(3, 100px);
+    grid-template-rows: repeat(3, 100px);
+    gap: 5px;
+}
+
+.square {
+  background-color: rgb(255,255,255);
+  border: 1px solid;
+  text-align: center;
+  font-size: 40px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+  
+}
+
+.square:hover {
+    background-color: rgb(178, 177, 177);
+}
+
+.turn {
+    text-align: center;
+    border: 2px solid;
+    max-width: 200px;
+    margin: 0 auto;
+    
+}
+
+.winCond{
+    
+    text-align: center;
+    border: 2px solid;
+    max-width: 200px;
+    margin: 0 auto;
+}
+
+
+</style>
+</head>
+
+
+<body>
+
+    <h1> TIC-TAC-TOE</h1>
+    
+    <div class="turn">
+        Players Turn: 
+    </div>
+    
+    <div class="container">
+        <div class="grid-container">
+            <script>
+                const NUM_SQUARES = 9;
+                for (let i = 0; i < NUM_SQUARES; i++) {
+                    const id = "sq" + i;
+                    document.write("<div class='square' id='" + id + "'></div>");
+                }
+            </script>
+        </div>
+
+
+
+    </div>
+
+    <div class="winCond">
+        Win Condition:
+
+    </div>
+    
+    
+    </body>
+    
+    
+
+
+</body>
+</html>

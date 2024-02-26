@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ttt1</title>
+<style>
+
+body {
+    height: 100vh;
+    margin: 0;
+    font-family: Arial, sans-serif;
+    text-align: center;
+}
+
+h1 {
+    text-align: center;
+    margin-top: 20px;
+}
+
+.container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    margin-top: 50px;
+}
+
+.grid-container {
+    display: grid;
+    grid-template-columns: repeat(3, 100px);
+    grid-template-rows: repeat(3, 100px);
+    gap: 5px;
+}
+
+.square {
+    background-color: rgb(227, 224, 224);
+    border: 1px solid rgb(125, 125, 125);
+    text-align: center;
+    font-size: 40px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.square:hover {
+    background-color: #eee;
+}
+
+.turn {
+    margin-top: 20px;
+    font-size: 24px;
+}
+
+.winCond {
+    margin-top: 20px;
+    font-size: 24px;
+}
+
+#startGameButton {
+    margin-top: 20px;
+    padding: 10px 20px;
+    font-size: 16px;
+    background-color: rgb(21, 70, 231);
+    color: rgb(255, 255, 255);
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    
+}
+
+#startGameButton:hover {
+    background-color: rgb(6, 34, 125);;
+}
+
+
+
+</style>
+</head>
+
+
+<body>
+
+    <h1> TIC-TAC-TOE</h1>
+    
+    <div class="turn">
+        Players Turn: <span class="playerTurn">X</span> 
+    </div>
+    
+    <div class="container">
+        <div class="grid-container" id="gridContainer">
+            <script>
+                const NUM_SQUARES = 9;
+                let currPlayer;
+                let moves;
+                let winConditions = [];
+                let gameOver = false;
+
+                function initializeGame() {
+                    let rand = 10 * Math.random();
+                    currPlayer = rand > 5 ? "X" : "O";
+                    const displayTurn = document.querySelector('.turn .playerTurn');
+                    displayTurn.innerHTML = currPlayer;
+                    moves = Array.from({ length: NUM_SQUARES }, () => '-');
+                }
+
+                function renderBoard() {
+                    for (let i = 0; i < NUM_SQUARES; i++) {
+                        const id = "sq" + i;
+                        document.write("<div class='square' id='" + id + "'></div>");
+                    }
+                }
+
+                function checkWin() {
+                    winConditions = [
+                        moves[0] + moves[1] + moves[2],
+                        moves[3] + moves[4] + moves[5],
+                        moves[6] + moves[7] + moves[8],
+                        moves[0] + moves[3] + moves[6],
+                        moves[1] + moves[4] + moves[7],
+                        moves[2] + moves[5] + moves[8],
+                        moves[0] + moves[4] + moves[8],
+                        moves[2] + moves[4] + moves[6]
+                    ];
+                    if (winConditions.includes('XXX')) {
+                        document.querySelector('.winCond').innerHTML = 'Player X wins!';
+                        gameOver = true;
+                    } else if (winConditions.includes('OOO')) {
+                        document.querySelector('.winCond').innerHTML = 'Player O wins!';
+                        gameOver = true;
+                    }
+                }
+
+                function checkStalemate() {
+                    if (!moves.includes('-') && gameOver == false) {
+                        document.querySelector('.winCond').innerHTML = 'Stalemate!';
+                        gameOver = true;
+                    }
+                }
+
+                function switchPlayer() {
+                    currPlayer = currPlayer === "X" ? "O" : "X";
+                    const displayTurn = document.querySelector('.turn .playerTurn');
+                    displayTurn.innerHTML = currPlayer;
+                }
+
+                function clickHandler(event) {
+                    if (gameOver) return;
+                    let tar = event.target;
+                    let getid;
+                    if (tar.classList.contains('square') && !tar.textContent) {
+                        getid = tar.id.slice(2);
+                        tar.innerHTML = currPlayer;
+                        moves[getid] = currPlayer;
+                        checkWin();
+                        checkStalemate();
+                        switchPlayer();
+                    }
+                }
+
+                function setupEventListeners() {
+                    const squares = Array.from(document.querySelectorAll('.square'));
+                    squares.forEach(square => {
+                        square.addEventListener('click', clickHandler);
+                    });
+                }
+
+                initializeGame();
+                renderBoard();
+                setupEventListeners();
+            </script>
+
+        </div>
+
+
+
+    </div>
+
+    <div class="winCond">
+        Win Condition:
+    </div>
+
+    <button id="startGameButton">Start Game</button>
+
+    <script>
+        function resetGame() {
+            const squares = Array.from(document.querySelectorAll('.square'));
+            squares.forEach(square => {
+                square.textContent = "";
+            });
+            moves = Array.from({ length: NUM_SQUARES }, () => '-');
+
+            let rand = 10 * Math.random();
+            if (rand > 5) {
+                currPlayer = "X";
+            } else {
+                currPlayer = "O";
+            }
+
+            document.querySelector('.turn .playerTurn').innerHTML = currPlayer;
+            document.querySelector('.winCond').innerHTML = 'Win Condition: ';
+            gameOver = false; 
+        }
+
+        
+        document.getElementById('startGameButton').addEventListener('click', function() {
+            resetGame();
+        });
+
+
+    </script>
+    
+    
+    </body>
+    
+    
+
+
+</body>
+</html>
